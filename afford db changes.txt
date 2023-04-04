@@ -1,0 +1,52 @@
+tbllogin:
+DaysLock	int - default(0)
+
+tblItemProcessOrder:
+ChallanNo-nvarchar(50)
+IssueDate-date
+update tblItemProcessOrder set issuedate=defaultdate
+
+tblItemProcessOrderReceive:
+ChallanNo-nvarchar(50)
+
+tblTransProcessEntryItems:
+TotalReturned-float-default(0)
+Returned-float-default(0)
+update tblTransProcessEntryItems set TotalReturned=0,Returned=0
+
+tblTransProcessEntryItemsHistory:
+Returned-float-default(0)
+update tblTransProcessEntryItemsHistory set returned=0
+
+tblProcessEntryItemDetails:
+RtnQty-float-default(0)
+update tblProcessEntryItemDetails set RtnQty=0
+
+
+tblTransProcessEntrySizes:
+TotalReturned-float-default(0)
+Returned-float-default(0)
+update tblTransProcessEntrySizes set TotalReturned=0,Returned=0
+
+tblTransProcessEntrySizesHistory:
+Returned-float-default(0)
+update tblTransProcessEntrySizesHistory set returned=0
+
+tblProcessEntrySizeDetails:
+RtnQty-nchar(10)-default(0)
+update tblProcessEntrySizeDetails set rtnqty=0
+
+tblTransProcessEntryItemsHistory:
+Returned-float-default(0)
+update tblTransProcessEntryItemsHistory set returned=0
+
+
+tblTransBuyerOrderItems
+Pattern-nvarchar(50)
+update tblTransBuyerOrderItems set pattern='No'
+
+
+
+tblTransBuyerOrderItemsHistory
+Pattern-nvarchar(50)
+update tblTransBuyerOrderItemsHistory set pattern='No'
