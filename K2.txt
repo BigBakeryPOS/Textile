@@ -1,0 +1,50 @@
+K2:
+
+Master:
+Item Head:
+new checkbox - Need Lot in purchaseGRN. - ok
+
+**************************
+a . Process cost will needed to be assigned in sampling and costing
+Sampling and costing - 
+MasterCutting Piece Process - default select.- ok
+selected Pcs Process :
+New column Rate in grid for all process. - ok
+**************************
+b. While purchase need unique lot number
+Purchase GRN - 
+
+check lotno unique 
+
+insert new column in transpurchase - lotno
+
+Insert in new table
+Item, color, qty, lotno, party, company code,
+insert in stock:
+check with Item, color, qty, lotno, company code columns
+if not exists:
+Upate stock with Item, color, qty, lotno, company code columns
+**************************
+c. During cutting stage, based on order the lot number fabric must be highlighted to avoid confusion
+
+Pre cutting- 
+Fabric Details - show stock with lot no wise(sub grid lotno column in grid).
+Material Issue-
+Material Details - show stock with lot no wise(sub grid lotno column in grid).
+Master Cutting-
+Fabric Details - show stock with lot no wise(sub grid lotno column in grid).
+Style Details - Receive(Reduce based on lotno).
+****************
+d. Need employee wise stock received details
+Process Entry:
+Get Rate from sampling and costing.
+Receive -  Employee wise(Like Rajaram).
+****************
+e. Employee wise weekend report
+New report:
+from date, to date, employee select
+excno, styleno, color, process name, qty, rate, total amount.
+**************
+
+
+

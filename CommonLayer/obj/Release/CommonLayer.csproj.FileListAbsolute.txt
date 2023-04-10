@@ -1,0 +1,6 @@
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\bin\Release\CommonLayer.dll
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\bin\Release\CommonLayer.pdb
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\obj\Release\CommonLayer.csproj.AssemblyReference.cache
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\obj\Release\CommonLayer.csproj.CoreCompileInputs.cache
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\obj\Release\CommonLayer.dll
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\obj\Release\CommonLayer.pdb

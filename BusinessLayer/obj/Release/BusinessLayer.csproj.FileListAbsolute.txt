@@ -1,0 +1,11 @@
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\BusinessLayer\bin\Release\BusinessLayer.dll
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\BusinessLayer\bin\Release\BusinessLayer.pdb
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\BusinessLayer\bin\Release\CommonLayer.dll
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\BusinessLayer\bin\Release\DataLayer.dll
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\BusinessLayer\bin\Release\CommonLayer.pdb
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\BusinessLayer\bin\Release\DataLayer.pdb
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\BusinessLayer\obj\Release\BusinessLayer.csproj.AssemblyReference.cache
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\BusinessLayer\obj\Release\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\BusinessLayer\obj\Release\BusinessLayer.csproj.CopyComplete
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\BusinessLayer\obj\Release\BusinessLayer.dll
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\BusinessLayer\obj\Release\BusinessLayer.pdb

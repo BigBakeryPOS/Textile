@@ -1,0 +1,6 @@
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\DataLayer\bin\Release\DataLayer.dll
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\DataLayer\bin\Release\DataLayer.pdb
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\DataLayer\obj\Release\DataLayer.csproj.AssemblyReference.cache
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\DataLayer\obj\Release\DataLayer.csproj.CoreCompileInputs.cache
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\DataLayer\obj\Release\DataLayer.dll
+C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\DataLayer\obj\Release\DataLayer.pdb
