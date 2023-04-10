@@ -16,13 +16,13 @@ Purchase GRN -
 
 check lotno unique 
 
-insert new column in transpurchase - lotno
+insert new column in transpurchase - lotno - ok
 
-Insert in new table
+Insert in new table- ok
 Item, color, qty, lotno, party, company code,
-insert in stock:
+insert in stock:- ok
 check with Item, color, qty, lotno, company code columns
-if not exists:
+if not exists:- ok
 Upate stock with Item, color, qty, lotno, company code columns
 **************************
 c. During cutting stage, based on order the lot number fabric must be highlighted to avoid confusion

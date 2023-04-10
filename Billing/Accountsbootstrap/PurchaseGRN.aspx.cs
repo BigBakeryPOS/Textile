@@ -54,7 +54,7 @@ namespace Billing.Accountsbootstrap
                     ddlCompany.Items.Insert(0, "CompanyName");
                 }
 
-             
+
 
                 DataSet dsProcessOn = objBs.GetCategory_as_Process("ShowPOrder");
                 if (dsProcessOn.Tables[0].Rows.Count > 0)
@@ -92,7 +92,7 @@ namespace Billing.Accountsbootstrap
                     {
                         #region
 
-                       
+
 
                         ddlPoNo.SelectedValue = dsRecPO.Tables[0].Rows[0]["POId"].ToString();
                         ddlPoNo.Enabled = false;
@@ -196,6 +196,8 @@ namespace Billing.Accountsbootstrap
                         dttt.Columns.Add(dct);
                         dct = new DataColumn("Remarks");
                         dttt.Columns.Add(dct);
+                        dct = new DataColumn("LotNo");
+                        dttt.Columns.Add(dct);
 
 
                         dstd.Tables.Add(dttt);
@@ -231,6 +233,7 @@ namespace Billing.Accountsbootstrap
                             drNew["RecQty"] = Dr["RecQty"];
 
                             drNew["Remarks"] = Dr["Remarks"];
+                            drNew["LotNo"] = Dr["LotNo"];
 
 
                             dstd.Tables[0].Rows.Add(drNew);
@@ -262,7 +265,7 @@ namespace Billing.Accountsbootstrap
             }
             else
             {
-                DataSet dsItemProcessPo = objBs.GetPo(ddlPartyName.SelectedValue,"S");
+                DataSet dsItemProcessPo = objBs.GetPo(ddlPartyName.SelectedValue, "S");
                 if (dsItemProcessPo.Tables[0].Rows.Count > 0)
                 {
                     ddlPoNo.DataSource = dsItemProcessPo.Tables[0];
@@ -277,7 +280,7 @@ namespace Billing.Accountsbootstrap
                 }
             }
 
-          
+
         }
 
         protected void ddlPoNo_OnSelectedIndexChanged(object sender, EventArgs e)
@@ -362,6 +365,9 @@ namespace Billing.Accountsbootstrap
                     dttt.Columns.Add(dct);
                     dct = new DataColumn("IsReceive");
                     dttt.Columns.Add(dct);
+                    dct = new DataColumn("LotNo");
+                    dttt.Columns.Add(dct);
+                    
 
                     dstd.Tables.Add(dttt);
 
@@ -399,7 +405,7 @@ namespace Billing.Accountsbootstrap
                         drNew["IsReceive"] = Dr["Receive"];
 
                         drNew["RecQty"] = 0;// Convert.ToDouble(Dr["Qty"]) - Convert.ToDouble(Dr["RecQty"]);
-
+                        drNew["LotNo"] = 0;
                         dstd.Tables[0].Rows.Add(drNew);
                         dtddd = dstd.Tables[0];
                     }
@@ -626,6 +632,8 @@ namespace Billing.Accountsbootstrap
 
                         TextBox txtRate = (TextBox)GVItem.Rows[rowIndex].Cells[3].FindControl("txtRate");
                         TextBox txtAmount = (TextBox)GVItem.Rows[rowIndex].Cells[3].FindControl("txtAmount");
+                        TextBox txtLotNo = (TextBox)GVItem.Rows[rowIndex].Cells[3].FindControl("txtLotNo");
+
 
                         drCurrentRow = dtCurrentTable.NewRow();
 
@@ -641,7 +649,7 @@ namespace Billing.Accountsbootstrap
 
                         dtCurrentTable.Rows[i - 1]["Rate"] = txtRate.Text;
                         dtCurrentTable.Rows[i - 1]["Amount"] = txtAmount.Text;
-
+                        dtCurrentTable.Rows[i - 1]["LotNo"] = txtLotNo.Text;
                         rowIndex++;
 
                     }
@@ -680,6 +688,7 @@ namespace Billing.Accountsbootstrap
 
                         TextBox txtRate = (TextBox)GVItem.Rows[rowIndex].Cells[1].FindControl("txtRate");
                         TextBox txtAmount = (TextBox)GVItem.Rows[rowIndex].Cells[1].FindControl("txtAmount");
+                        Label txtLotNo = (Label)GVItem.Rows[rowIndex].Cells[1].FindControl("txtLotNo");
 
                         ddlItemCode.SelectedValue = dt.Rows[i]["Item"].ToString();
                         ddlReceiveItemCode.SelectedValue = dt.Rows[i]["ReceiveItem"].ToString();
@@ -693,6 +702,7 @@ namespace Billing.Accountsbootstrap
 
                         txtRate.Text = dt.Rows[i]["Rate"].ToString();
                         txtAmount.Text = dt.Rows[i]["Amount"].ToString();
+                        txtLotNo.Text = dt.Rows[i]["LotNo"].ToString();
 
                         if (txtAmount.Text == "")
                             txtAmount.Text = "0";
@@ -785,6 +795,24 @@ namespace Billing.Accountsbootstrap
 
         protected void btnSave_OnClick(object sender, EventArgs e)
         {
+            DataSet dcheckLotno_Mandatory = objBs.GetCategoryDetails1(Convert.ToInt32(ddlProcessOn.SelectedValue));
+            if (dcheckLotno_Mandatory.Tables[0].Rows.Count > 0)
+            {
+                if (dcheckLotno_Mandatory.Tables[0].Rows[0]["NeedLotNo"].ToString() == "Y")
+                {
+                    for (int vLoop = 0; vLoop < GVItem.Rows.Count; vLoop++)
+                    {
+                        TextBox txtLotNo = (TextBox)GVItem.Rows[vLoop].FindControl("txtLotNo");
+                        if (txtLotNo.Text == "")
+                        {
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), Guid.NewGuid().ToString(), "alert('LotNo is Empty in row " + Convert.ToInt32(vLoop + 1) + "')", true);
+                            txtLotNo.Focus();
+                            return;
+                        }
+                    }
+                }
+            }
+
 
             if (GVItem.Rows.Count == 0)
             {
@@ -813,7 +841,7 @@ namespace Billing.Accountsbootstrap
 
                 // CHECK CHALLAN NUMBER
 
-                DataSet dcheckchallan = objBs.check_challan(txtChallanNo.Text, ddlPartyCode.SelectedValue,"0");
+                DataSet dcheckchallan = objBs.check_challan(txtChallanNo.Text, ddlPartyCode.SelectedValue, "0");
                 if (dcheckchallan.Tables[0].Rows.Count > 0)
                 {
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), Guid.NewGuid().ToString(), "alert('This Challan No Already Exists.For This Particular Party Code / Name.Thank You!!!.')", true);
@@ -821,7 +849,17 @@ namespace Billing.Accountsbootstrap
                     return;
                 }
 
-
+                for (int vLoop = 0; vLoop < GVItem.Rows.Count; vLoop++)
+                {
+                    TextBox txtLotNo = (TextBox)GVItem.Rows[vLoop].FindControl("txtLotNo");
+                    DataSet dsCheckLotNo = objBs.CheckLotNo(txtLotNo.Text);
+                    if (dsCheckLotNo.Tables[0].Rows.Count > 0)
+                    {
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), Guid.NewGuid().ToString(), "alert('LotNo already Exists in row " + Convert.ToInt32(vLoop + 1) + "')", true);
+                        txtLotNo.Focus();
+                        return;
+                    }
+                }
 
                 DataSet dsPONo = objBs.GetPurchaseRecPONo(YearCode);
                 string PONo = dsPONo.Tables[0].Rows[0]["RecPONo"].ToString().PadLeft(4, '0');
@@ -856,13 +894,15 @@ namespace Billing.Accountsbootstrap
 
                         TextBox txtQty = (TextBox)GVItem.Rows[vLoop].FindControl("txtQty");
                         TextBox txtRemarks = (TextBox)GVItem.Rows[vLoop].FindControl("txtRemarks");
+                        TextBox txtLotNo = (TextBox)GVItem.Rows[vLoop].FindControl("txtLotNo");
+
 
                         if (txtQty.Text == "")
                             txtQty.Text = "0";
 
                         if (Convert.ToDouble(txtQty.Text) > 0)
                         {
-                            int TransSamplingCostingId = objBs.InsertTransPurchaseGRN(POGRNId, Convert.ToInt32(hdTransId.Value), Convert.ToInt32(hdPurchaseForId.Value), Convert.ToInt32(hdPurchaseForTypeId.Value), Convert.ToInt32(hdItemId.Value), Convert.ToInt32(hdColorId.Value), Convert.ToDouble(hdQty.Value), Convert.ToDouble(hdShrink.Value), Convert.ToDouble(hdTotalQty.Value), Convert.ToDouble(txtRate.Text), Convert.ToDouble(hdAmount.Value), Convert.ToDouble(txtQty.Text), txtRemarks.Text, Convert.ToInt32(ddlCompany.SelectedValue));
+                            int TransSamplingCostingId = objBs.InsertTransPurchaseGRN(POGRNId, Convert.ToInt32(hdTransId.Value), Convert.ToInt32(hdPurchaseForId.Value), Convert.ToInt32(hdPurchaseForTypeId.Value), Convert.ToInt32(hdItemId.Value), Convert.ToInt32(hdColorId.Value), Convert.ToDouble(hdQty.Value), Convert.ToDouble(hdShrink.Value), Convert.ToDouble(hdTotalQty.Value), Convert.ToDouble(txtRate.Text), Convert.ToDouble(hdAmount.Value), Convert.ToDouble(txtQty.Text), txtRemarks.Text, Convert.ToInt32(ddlCompany.SelectedValue), txtLotNo.Text, Convert.ToInt32(ddlPartyCode.SelectedValue));
                         }
                     }
                 }
@@ -900,18 +940,16 @@ namespace Billing.Accountsbootstrap
 
                     TextBox txtQty = (TextBox)GVItem.Rows[vLoop].FindControl("txtQty");
                     TextBox txtRemarks = (TextBox)GVItem.Rows[vLoop].FindControl("txtRemarks");
+                    TextBox txtLotNo = (TextBox)GVItem.Rows[vLoop].FindControl("txtLotNo");
 
                     if (txtQty.Text == "")
                         txtQty.Text = "0";
 
                     if (Convert.ToDouble(txtQty.Text) > 0)
                     {
-                        int TransSamplingCostingId = objBs.UpdateTransPurchaseGRN(Convert.ToInt32(POGRNId), Convert.ToInt32(hdTransId.Value), Convert.ToInt32(hdPurchaseForId.Value), Convert.ToInt32(hdPurchaseForTypeId.Value), Convert.ToInt32(hdItemId.Value), Convert.ToInt32(hdColorId.Value), Convert.ToDouble(hdQty.Value), Convert.ToDouble(hdShrink.Value), Convert.ToDouble(hdTotalQty.Value), Convert.ToDouble(txtRate.Text), Convert.ToDouble(hdAmount.Value), Convert.ToDouble(txtQty.Text), txtRemarks.Text, Convert.ToInt32(ddlCompany.SelectedValue));
+                        int TransSamplingCostingId = objBs.UpdateTransPurchaseGRN(Convert.ToInt32(POGRNId), Convert.ToInt32(hdTransId.Value), Convert.ToInt32(hdPurchaseForId.Value), Convert.ToInt32(hdPurchaseForTypeId.Value), Convert.ToInt32(hdItemId.Value), Convert.ToInt32(hdColorId.Value), Convert.ToDouble(hdQty.Value), Convert.ToDouble(hdShrink.Value), Convert.ToDouble(hdTotalQty.Value), Convert.ToDouble(txtRate.Text), Convert.ToDouble(hdAmount.Value), Convert.ToDouble(txtQty.Text), txtRemarks.Text, Convert.ToInt32(ddlCompany.SelectedValue), txtLotNo.Text, Convert.ToInt32(ddlPartyCode.SelectedValue));
                     }
                 }
-
-
-
             }
             Response.Redirect("PurchaseGRNGrid.aspx");
         }

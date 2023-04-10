@@ -295,6 +295,11 @@
                         ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="50px" DataFormatString="{0:f2}" />
                     <asp:BoundField DataField="BalQty" HeaderText="Bal.Qty" HeaderStyle-HorizontalAlign="Right"
                         ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="50px" DataFormatString="{0:f2}" />
+                    <asp:TemplateField HeaderText="LotNo ">
+                        <ItemTemplate>
+                            <asp:TextBox ID="txtLotNo" Text='<%#Eval("LotNo") %>' runat="server" Width="100%"></asp:TextBox>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="Rate" HeaderStyle-Width="40px">
                         <ItemTemplate>
                             <asp:TextBox ID="txtRate" runat="server" Text='<%#Eval("Rate") %>' Width="120px"
