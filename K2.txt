@@ -1,10 +1,15 @@
 K2:
-
 Master:
 Item Head:
 new checkbox - Need Lot in purchaseGRN. - ok
 
 **************************
+Master:
+Item type:
+
+new column
+Select Issue Type - dropdown like material issue. 
+*****************
 a . Process cost will needed to be assigned in sampling and costing
 Sampling and costing - 
 MasterCutting Piece Process - default select.- ok
@@ -13,9 +18,7 @@ New column Rate in grid for all process. - ok
 **************************
 b. While purchase need unique lot number
 Purchase GRN - 
-
 check lotno unique 
-
 insert new column in transpurchase - lotno - ok
 
 Insert in new table- ok
@@ -45,6 +48,13 @@ New report:
 from date, to date, employee select
 excno, styleno, color, process name, qty, rate, total amount.
 **************
+Material issue:
+
+new grid:
+SNo-Item-Color-lotno-
+**********
+Master cutting:
+Required Materials grid - display stock based on lotno first in first out method.
 
 
 

@@ -893,6 +893,28 @@ namespace Billing.Accountsbootstrap
 
         }
 
+        protected void gvsales_OnRowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            sTableName = Session["User"].ToString();
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                GridView gv = e.Row.FindControl("GridView11") as GridView;
+                GridView gvGroup = (GridView)sender;
+                if (gvGroup.DataKeys[e.Row.RowIndex].Value != "")
+                {
+                    DataSet ds = objBs.getItemStock_LotNo(Convert.ToInt32(gvGroup.DataKeys[e.Row.RowIndex].Value));
+
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        gv.DataSource = ds;
+                        gv.DataBind();
+                    }
+
+                }
+            }
+        }
+
         protected void GVItem_OnRowCommand(object sender, GridViewCommandEventArgs e)
         {
 
