@@ -263,6 +263,15 @@
                                                         Visible="false" Enabled="false" ToolTip="Not Allow To Delete" />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
+                                              <asp:TemplateField HeaderText="EmpReceive" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="btnEmpReceive" runat="server" CommandArgument='<%#Eval("ProcessEntryId") %>'
+                                                        CommandName="EmpReceive">
+                                                        <asp:Image ID="imgEmpReceive" runat="server" ImageUrl="~/images/pen-checkbox-128.png" /></asp:LinkButton>
+                                                    <asp:ImageButton ID="imgEmpdisableReceive" ImageUrl="~/images/edit.png" runat="server"
+                                                        Visible="false" Enabled="false" ToolTip="Not Allow To Delete" />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Isu Print" ItemStyle-HorizontalAlign="Center" Visible="true">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnPrint" runat="server" CommandArgument='<%#Eval("ProcessEntryId") %>'

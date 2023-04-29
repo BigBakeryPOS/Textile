@@ -182,6 +182,13 @@ namespace Billing.Accountsbootstrap
                     Response.Redirect("CuttingProcessEntry.aspx?TPE=REC&&ProcessEntryId=" + e.CommandArgument.ToString());
                 }
             }
+            else if (e.CommandName == "EmpReceive")
+            {
+                if (e.CommandArgument.ToString() != "")
+                {
+                    Response.Redirect("CuttingProcessEntryEmployee.aspx?TPE=REC&&ProcessEntryId=" + e.CommandArgument.ToString());
+                }
+            }
             else if (e.CommandName == "IssuePrint")
             {
                 if (e.CommandArgument.ToString() != "")

@@ -361,9 +361,3 @@ F:\Priya_Working\Janarthanan\K2Ethinic\Affordable\CommonLayer\bin\Debug\CommonLa
 F:\Priya_Working\Janarthanan\K2Ethinic\Affordable\CommonLayer\bin\Debug\CommonLayer.pdb
 F:\Priya_Working\Janarthanan\K2Ethinic\Affordable\CommonLayer\obj\Debug\CommonLayer.dll
 F:\Priya_Working\Janarthanan\K2Ethinic\Affordable\CommonLayer\obj\Debug\CommonLayer.pdb
-C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\bin\Debug\CommonLayer.dll
-C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\bin\Debug\CommonLayer.pdb
-C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\obj\Debug\CommonLayer.csproj.AssemblyReference.cache
-C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\obj\Debug\CommonLayer.csproj.CoreCompileInputs.cache
-C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\obj\Debug\CommonLayer.dll
-C:\Users\intel\Source\Repos\BigBakeryPOS\Textile\CommonLayer\obj\Debug\CommonLayer.pdb

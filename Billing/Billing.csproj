@@ -185,6 +185,7 @@
     <Content Include="Accountsbootstrap\CuttingPreprocess.aspx" />
     <Content Include="Accountsbootstrap\Cuttingprocess.aspx" />
     <Content Include="Accountsbootstrap\CuttingProcessEntry.aspx" />
+    <Content Include="Accountsbootstrap\CuttingProcessEntryEmployee.aspx" />
     <Content Include="Accountsbootstrap\CuttingProcessEntryGrid.aspx" />
     <Content Include="Accountsbootstrap\CuttingProcessEntryOrder.aspx" />
     <Content Include="Accountsbootstrap\CuttingProcessEntryPrint.aspx" />
@@ -1296,6 +1297,13 @@
     </Compile>
     <Compile Include="Accountsbootstrap\CuttingProcessEntry.aspx.designer.cs">
       <DependentUpon>CuttingProcessEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Accountsbootstrap\CuttingProcessEntryEmployee.aspx.cs">
+      <DependentUpon>CuttingProcessEntryEmployee.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Accountsbootstrap\CuttingProcessEntryEmployee.aspx.designer.cs">
+      <DependentUpon>CuttingProcessEntryEmployee.aspx</DependentUpon>
     </Compile>
     <Compile Include="Accountsbootstrap\CuttingProcessEntryGrid.aspx.cs">
       <DependentUpon>CuttingProcessEntryGrid.aspx</DependentUpon>
