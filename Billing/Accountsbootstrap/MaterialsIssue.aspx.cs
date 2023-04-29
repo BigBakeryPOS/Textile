@@ -258,7 +258,95 @@ namespace Billing.Accountsbootstrap
                                 Label lblAvlStock = (Label)GVFabricDetails.Rows[vLoop].FindControl("lblAvlStock");
 
                                 //DataSet dsstock = objBs.GetAvlStock(hdItemId.Value, hdColorId.Value, dsBuyerOrderCutting.Tables[0].Rows[0]["CompanyId"].ToString());
-                                DataSet dsstock = objBs.GetAvlStock(hdItemId.Value, hdColorId.Value, "2");
+                                DataSet dsstock = objBs.GetAvlStock(hdItemId.Value, hdColorId.Value,ddlCompanyName.SelectedValue);
+                                if (dsstock.Tables[0].Rows.Count > 0)
+                                {
+                                    lblAvlStock.Text = Convert.ToDouble(dsstock.Tables[0].Rows[0]["Qty"]).ToString("0.00");
+                                }
+                                else
+                                {
+                                    lblAvlStock.Text = "0";
+                                }
+                            }
+                        }
+                    }
+
+
+                    DataSet dsBuyerOrderCuttingFabricLotNo = objBs.GetTransMaterialIssueLotno(Convert.ToInt32(MaterialissueId));
+                    if (dsBuyerOrderCuttingFabricLotNo.Tables[0].Rows.Count > 0)
+                    {
+                        DataSet dstd21 = new DataSet();
+                        DataTable dtddd21 = new DataTable();
+                        DataRow drNew21;
+                        DataColumn dct21;
+                        DataTable dttt21 = new DataTable();
+
+                        #region
+
+                        dct21 = new DataColumn("Item");
+                        dttt21.Columns.Add(dct21);
+                        dct21 = new DataColumn("ItemId");
+                        dttt21.Columns.Add(dct21);
+                        dct21 = new DataColumn("Color");
+                        dttt21.Columns.Add(dct21);
+                        dct21 = new DataColumn("ColorId");
+                        dttt21.Columns.Add(dct21);
+                        dct21 = new DataColumn("AvlStock");
+                        dttt21.Columns.Add(dct21);
+                        dct21 = new DataColumn("RequiredStock");
+                        dttt21.Columns.Add(dct21);
+                        dct21 = new DataColumn("IssueQty");
+                        dttt21.Columns.Add(dct21);
+
+                        dct21 = new DataColumn("IssueStock");
+                        dttt21.Columns.Add(dct21);
+                        dct21 = new DataColumn("Lotno");
+                        dttt21.Columns.Add(dct21);
+                        //   dct2 = new DataColumn("UsedQty");
+                        //   dttt2.Columns.Add(dct2);
+
+                        dstd21.Tables.Add(dttt21);
+
+                        foreach (DataRow Dr21 in dsBuyerOrderCuttingFabricLotNo.Tables[0].Rows)
+                        {
+                            drNew21 = dttt21.NewRow();
+
+                            drNew21["Item"] = Dr21["Item"];
+                            drNew21["ItemId"] = Dr21["ItemId"];
+                            drNew21["Color"] = Dr21["Color"];
+                            drNew21["ColorId"] = Dr21["ColorId"];
+                            drNew21["AvlStock"] = Convert.ToDouble(Dr21["AvlStock"]).ToString("f2");
+                            drNew21["RequiredStock"] = Convert.ToDouble(Dr21["RequiredStock"]).ToString("f2");
+                            drNew21["IssueQty"] = Convert.ToDouble(Dr21["IssueStock"]).ToString("f2");
+
+                            drNew21["IssueStock"] = Convert.ToDouble(Dr21["IssueStock"]).ToString("f2");
+                            drNew21["Lotno"] = Dr21["Lotno"];
+                            //  drNew2["UsedQty"] = Convert.ToDouble(Dr2["UsedQty"]).ToString("f2");
+
+                            dstd21.Tables[0].Rows.Add(drNew21);
+                            dtddd21 = dstd21.Tables[0];
+                        }
+
+                        #endregion
+
+                        ViewState["CurrentTable4"] = dtddd21;
+
+                        GVFabricDetailsLotNo.DataSource = dtddd21;
+                        GVFabricDetailsLotNo.DataBind();
+
+                        // GVFabricDetails.Columns[7].Visible = false;
+
+                        if (GVFabricDetailsLotNo.Rows.Count > 0)
+                        {
+                            for (int vLoop = 0; vLoop < GVFabricDetailsLotNo.Rows.Count; vLoop++)
+                            {
+                                HiddenField hdItemId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdItemId");
+                                HiddenField hdColorId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdColorId");
+                                Label lblAvlStock = (Label)GVFabricDetailsLotNo.Rows[vLoop].FindControl("lblAvlStock");
+                                Label lblLotNo = (Label)GVFabricDetailsLotNo.Rows[vLoop].FindControl("lblLotNo");
+
+                                //DataSet dsstock = objBs.GetAvlStock(hdItemId.Value, hdColorId.Value, dsBuyerOrderCutting.Tables[0].Rows[0]["CompanyId"].ToString());
+                                DataSet dsstock = objBs.GetAvlStockLotNo(hdItemId.Value, hdColorId.Value, lblLotNo.Text,ddlCompanyName.SelectedValue);
                                 if (dsstock.Tables[0].Rows.Count > 0)
                                 {
                                     lblAvlStock.Text = Convert.ToDouble(dsstock.Tables[0].Rows[0]["Qty"]).ToString("0.00");
@@ -566,7 +654,7 @@ namespace Billing.Accountsbootstrap
 
                         if ((hdItemId.Value == hdItemId1.Value) && (hdColorId.Value == hdColorId1.Value))
                         {
-                            txtIssueQty1.Text = Convert.ToString(Convert.ToInt32(txtIssueQty1.Text) + Convert.ToInt32(txtIssueQty.Text));
+                            txtIssueQty1.Text = Convert.ToString(Convert.ToDouble(txtIssueQty1.Text) + Convert.ToDouble(txtIssueQty.Text));
                         }
                     }
                 }
@@ -682,12 +770,26 @@ namespace Billing.Accountsbootstrap
                     }
                 }
 
+                DataSet dsBuyerOrderCuttingFabriclotno = objBs.GetTransMaterialIssueLotno(Convert.ToInt32(MaterialissueId));
+                if (dsBuyerOrderCuttingFabriclotno.Tables[0].Rows.Count > 0)
+                {
+                    for (int vLoop = 0; vLoop < dsBuyerOrderCuttingFabriclotno.Tables[0].Rows.Count; vLoop++)
+                    {
+                        DataSet dsmaterialissue = objBs.GetMAterialIssue_Update(Convert.ToInt32(MaterialissueId));
+                        if (dsmaterialissue.Tables[0].Rows.Count > 0)
+                        {
+                            int MaterialIssueID1 = objBs.UpdateStock_MaterialIssueEditLotNo("", dsBuyerOrderCuttingFabriclotno.Tables[0].Rows[vLoop]["ItemId"].ToString(), dsBuyerOrderCuttingFabriclotno.Tables[0].Rows[vLoop]["ColorId"].ToString(), Convert.ToDouble(dsBuyerOrderCuttingFabriclotno.Tables[0].Rows[vLoop]["issuestock"]), dsmaterialissue.Tables[0].Rows[0]["companyid"].ToString(), dsBuyerOrderCuttingFabriclotno.Tables[0].Rows[vLoop]["Lotno"].ToString());
+                        }
+                    }
+                }
+
                 DataSet ds = objBs.GetBuyerOrderCutting(Convert.ToInt32(ddlExcNo.SelectedValue));
                 string CompanyId = ds.Tables[0].Rows[0]["CompanyId"].ToString();
 
                 int MaterialIssueID = objBs.UpdateMain_Material(txtmaterialissno.Text, MaterialIssueDate, drpissuetype.SelectedValue, drpissuetype.SelectedItem.Text, ddlExcNo.SelectedValue, ddlExcNo.SelectedItem.Text, drpprpno.SelectedValue, drpprpno.SelectedItem.Text, lblissuefor.Text, ddlProcessLedger.SelectedValue, YearCode, ddlCompanyName.SelectedValue, MaterialissueId);
 
                 int imatissueid = objBs.Delete_TransMaterialIssue(MaterialissueId);
+                int imatissueid1 = objBs.Delete_TransMaterialIssueLotNo(MaterialissueId);
 
                 for (int vLoop = 0; vLoop < GVFabricDetails.Rows.Count; vLoop++)
                 {
@@ -703,6 +805,25 @@ namespace Billing.Accountsbootstrap
 
                     int CuttingFabricId = objBs.InsertAdditionalFabforPreCut(Convert.ToInt32(ddlExcNo.SelectedValue), Convert.ToInt32(hdItemId.Value), Convert.ToInt32(hdColorId.Value), Convert.ToDouble(lblAvlStock.Text), Convert.ToDouble(hdRequiredStock.Value), Convert.ToDouble(txtIssueQty.Text), Convert.ToInt32(CompanyId), ddlExcNo.SelectedItem.Text, drpprpno.SelectedValue, ddlProcessLedger.SelectedValue, drpissuetype.SelectedItem.Text, lblissuefor.Text, MaterialissueId.ToString(), ddlCompanyName.SelectedValue);
                 }
+
+                for (int vLoop1 = 0; vLoop1 < GVFabricDetailsLotNo.Rows.Count; vLoop1++)
+                {
+                    HiddenField hdItemId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("hdItemId");
+                    HiddenField hdColorId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("hdColorId");
+                    HiddenField hdRequiredStock = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("hdRequiredStock");
+
+                    Label lblLotNo = (Label)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("lblLotNo");
+                    Label lblAvlStock = (Label)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("lblAvlStock");
+                    TextBox txtIssueQty = (TextBox)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("txtIssueQty");
+
+                    if (txtIssueQty.Text == "")
+                        txtIssueQty.Text = "0";
+
+                    int CuttingFabricId = objBs.InsertAdditionalFabforPreCutLotNo(Convert.ToInt32(ddlExcNo.SelectedValue), Convert.ToInt32(hdItemId.Value), Convert.ToInt32(hdColorId.Value), Convert.ToDouble(lblAvlStock.Text), Convert.ToDouble(hdRequiredStock.Value), Convert.ToDouble(txtIssueQty.Text), Convert.ToInt32(CompanyId), ddlExcNo.SelectedItem.Text, drpprpno.SelectedValue, ddlProcessLedger.SelectedValue, drpissuetype.SelectedItem.Text, lblissuefor.Text, MaterialissueId.ToString(), ddlCompanyName.SelectedValue, lblLotNo.Text);
+
+                }
+
+                Response.Redirect("MaterialsIssueGrid.aspx");
             }
         }
 
