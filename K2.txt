@@ -8,13 +8,15 @@ Master:
 Item type:
 
 new column
-Select Issue Type - dropdown like material issue. 
+Select Issue Type - dropdown like material issue. -ok
+
 *****************
 a . Process cost will needed to be assigned in sampling and costing
 Sampling and costing - 
 MasterCutting Piece Process - default select.- ok
 selected Pcs Process :
 New column Rate in grid for all process. - ok
+
 **************************
 b. While purchase need unique lot number
 Purchase GRN - 
@@ -27,6 +29,7 @@ insert in stock:- ok
 check with Item, color, qty, lotno, company code columns
 if not exists:- ok
 Upate stock with Item, color, qty, lotno, company code columns
+
 **************************
 c. During cutting stage, based on order the lot number fabric must be highlighted to avoid confusion
 

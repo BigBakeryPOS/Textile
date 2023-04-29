@@ -67,6 +67,7 @@ namespace Billing.Accountsbootstrap
 
                 issuetype_change(sender, e);
                 drpissuetype.Enabled = true;
+                btnSave.Enabled = false;
                 string MaterialissueId = Request.QueryString.Get("MaterialissueId");
                 if (MaterialissueId != "" && MaterialissueId != null)
                 {
@@ -399,11 +400,48 @@ namespace Billing.Accountsbootstrap
                         }
                     }
                 }
+
+                DataSet dsFabLot = objBs.GetAdditionalFabforPreCut_LotNo(Convert.ToInt32(Convert.ToInt32(ddlExcNo.SelectedValue)), Convert.ToInt32(drpissuetype.SelectedValue));
+                if (dsFabLot.Tables[0].Rows.Count > 0)
+                {
+                    GVFabricDetailsLotNo.DataSource = dsFabLot;
+                    GVFabricDetailsLotNo.DataBind();
+                }
+                else
+                {
+                    GVFabricDetailsLotNo.DataSource = null;
+                    GVFabricDetailsLotNo.DataBind();
+                }
+
+
+                if (GVFabricDetailsLotNo.Rows.Count > 0)
+                {
+                    for (int vLoop = 0; vLoop < GVFabricDetailsLotNo.Rows.Count; vLoop++)
+                    {
+                        HiddenField hdItemId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdItemId");
+                        HiddenField hdColorId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdColorId");
+                        Label lblAvlStock = (Label)GVFabricDetailsLotNo.Rows[vLoop].FindControl("lblAvlStock");
+                        Label lblLotNo = (Label)GVFabricDetailsLotNo.Rows[vLoop].FindControl("lblLotNo");
+
+                        DataSet dsstock = objBs.GetAvlStockLotNo(hdItemId.Value, hdColorId.Value, lblLotNo.Text, ddlCompanyName.SelectedValue);
+                        if (dsstock.Tables[0].Rows.Count > 0)
+                        {
+                            lblAvlStock.Text = Convert.ToDouble(dsstock.Tables[0].Rows[0]["Qty"]).ToString("0.00");
+                        }
+                        else
+                        {
+                            lblAvlStock.Text = "0";
+                        }
+                    }
+                }
             }
             else
             {
                 GVFabricDetails.DataSource = null;
                 GVFabricDetails.DataBind();
+
+                GVFabricDetailsLotNo.DataSource = null;
+                GVFabricDetailsLotNo.DataBind();
             }
         }
 
@@ -468,6 +506,75 @@ namespace Billing.Accountsbootstrap
             }
         }
 
+        protected void btnCalc_OnClick(object sender, EventArgs e)
+        {
+            for (int vLoop = 0; vLoop < GVFabricDetailsLotNo.Rows.Count; vLoop++)
+            {
+                HiddenField hdItemId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdItemId");
+                HiddenField hdColorId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdColorId");
+                HiddenField hdRequiredStock = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdRequiredStock");
+                HiddenField hdIssueStock = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdIssueStock");
+                Label lblAvlStock = (Label)GVFabricDetailsLotNo.Rows[vLoop].FindControl("lblAvlStock");
+                TextBox txtIssueQty = (TextBox)GVFabricDetailsLotNo.Rows[vLoop].FindControl("txtIssueQty");
+
+                if (txtIssueQty.Text == "")
+                    txtIssueQty.Text = "0";
+
+                if (Convert.ToDouble(txtIssueQty.Text) > 0)
+                {
+                    if (Convert.ToDouble(lblAvlStock.Text) < Convert.ToDouble(txtIssueQty.Text))
+                    {
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), Guid.NewGuid().ToString(), "alert('Please Check Avl.Stock  in Row " + (Convert.ToInt32(vLoop) + 1) + ".')", true);
+                        txtIssueQty.Focus();
+                        return;
+                    }
+                }
+            }
+
+            for (int vLoop = 0; vLoop < GVFabricDetails.Rows.Count; vLoop++)
+            {
+                TextBox txtIssueQty = (TextBox)GVFabricDetails.Rows[vLoop].FindControl("txtIssueQty");
+
+                txtIssueQty.Text = "0";
+            }
+
+            for (int vLoop = 0; vLoop < GVFabricDetailsLotNo.Rows.Count; vLoop++)
+            {
+                HiddenField hdItemId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdItemId");
+                HiddenField hdColorId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdColorId");
+                HiddenField hdRequiredStock = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdRequiredStock");
+                HiddenField hdIssueStock = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop].FindControl("hdIssueStock");
+                Label lblAvlStock = (Label)GVFabricDetailsLotNo.Rows[vLoop].FindControl("lblAvlStock");
+                TextBox txtIssueQty = (TextBox)GVFabricDetailsLotNo.Rows[vLoop].FindControl("txtIssueQty");
+
+                if (txtIssueQty.Text == "")
+                    txtIssueQty.Text = "0";
+
+                if (Convert.ToDouble(txtIssueQty.Text) > 0)
+                {
+                    for (int vLoop1 = 0; vLoop1 < GVFabricDetails.Rows.Count; vLoop1++)
+                    {
+                        HiddenField hdItemId1 = (HiddenField)GVFabricDetails.Rows[vLoop1].FindControl("hdItemId");
+                        HiddenField hdColorId1 = (HiddenField)GVFabricDetails.Rows[vLoop1].FindControl("hdColorId");
+                        HiddenField hdRequiredStock1 = (HiddenField)GVFabricDetails.Rows[vLoop1].FindControl("hdRequiredStock");
+                        HiddenField hdIssueStock1 = (HiddenField)GVFabricDetails.Rows[vLoop1].FindControl("hdIssueStock");
+                        Label lblAvlStock1 = (Label)GVFabricDetails.Rows[vLoop1].FindControl("lblAvlStock");
+                        TextBox txtIssueQty1 = (TextBox)GVFabricDetails.Rows[vLoop1].FindControl("txtIssueQty");
+
+                        if (txtIssueQty1.Text == "")
+                            txtIssueQty1.Text = "0";
+
+                        if ((hdItemId.Value == hdItemId1.Value) && (hdColorId.Value == hdColorId1.Value))
+                        {
+                            txtIssueQty1.Text = Convert.ToString(Convert.ToInt32(txtIssueQty1.Text) + Convert.ToInt32(txtIssueQty.Text));
+                        }
+                    }
+                }
+            }
+
+            btnSave.Enabled = true;
+        }
+
         protected void btnSave_OnClick(object sender, EventArgs e)
         {
             if (ddlProcessLedger.SelectedValue == "Select Jobwork Ledger")
@@ -530,6 +637,23 @@ namespace Billing.Accountsbootstrap
                             txtIssueQty.Text = "0";
 
                         int CuttingFabricId = objBs.InsertAdditionalFabforPreCut(Convert.ToInt32(ddlExcNo.SelectedValue), Convert.ToInt32(hdItemId.Value), Convert.ToInt32(hdColorId.Value), Convert.ToDouble(lblAvlStock.Text), Convert.ToDouble(hdRequiredStock.Value), Convert.ToDouble(txtIssueQty.Text), Convert.ToInt32(CompanyId), ddlExcNo.SelectedItem.Text, drpprpno.SelectedValue, ddlProcessLedger.SelectedValue, drpissuetype.SelectedItem.Text, lblissuefor.Text, MaterialIssueID.ToString(), ddlCompanyName.SelectedValue);
+
+                    }
+
+                    for (int vLoop1 = 0; vLoop1 < GVFabricDetailsLotNo.Rows.Count; vLoop1++)
+                    {
+                        HiddenField hdItemId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("hdItemId");
+                        HiddenField hdColorId = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("hdColorId");
+                        HiddenField hdRequiredStock = (HiddenField)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("hdRequiredStock");
+                        
+                             Label lblLotNo = (Label)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("lblLotNo");
+                        Label lblAvlStock = (Label)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("lblAvlStock");
+                        TextBox txtIssueQty = (TextBox)GVFabricDetailsLotNo.Rows[vLoop1].FindControl("txtIssueQty");
+
+                        if (txtIssueQty.Text == "")
+                            txtIssueQty.Text = "0";
+
+                        int CuttingFabricId = objBs.InsertAdditionalFabforPreCutLotNo(Convert.ToInt32(ddlExcNo.SelectedValue), Convert.ToInt32(hdItemId.Value), Convert.ToInt32(hdColorId.Value), Convert.ToDouble(lblAvlStock.Text), Convert.ToDouble(hdRequiredStock.Value), Convert.ToDouble(txtIssueQty.Text), Convert.ToInt32(CompanyId), ddlExcNo.SelectedItem.Text, drpprpno.SelectedValue, ddlProcessLedger.SelectedValue, drpissuetype.SelectedItem.Text, lblissuefor.Text, MaterialIssueID.ToString(), ddlCompanyName.SelectedValue, lblLotNo.Text);
 
                     }
                     Response.Redirect("MaterialsIssueGrid.aspx");

@@ -137,6 +137,7 @@ namespace Billing.Accountsbootstrap
                 txtItemDescription.Text = ds.Tables[0].Rows[0]["ItemDescription"].ToString();
 
                 ddlIsActive.SelectedValue = ds.Tables[0].Rows[0]["IsActive"].ToString();
+                drpissuetype.SelectedValue = ds.Tables[0].Rows[0]["IssueType"].ToString();
 
                 Button1.Text = "Update";
             }
@@ -159,8 +160,6 @@ namespace Billing.Accountsbootstrap
                 return;
             }
 
-
-
             if (Button1.Text == "Save")
             {
                 DataSet dsItemCode = objBs.ItemTypesrchgrid("ItemCode", txtItemCode.Text, 0);
@@ -179,7 +178,7 @@ namespace Billing.Accountsbootstrap
                 }
                 else
                 {
-                    int iStatus = objBs.InsertItemType(Convert.ToInt32(ddlItemHead.SelectedValue), Convert.ToInt32(ddlItemGroup.SelectedValue), txtItemCode.Text, txtItemDescription.Text, ddlIsActive.SelectedValue);
+                    int iStatus = objBs.InsertItemType(Convert.ToInt32(ddlItemHead.SelectedValue), Convert.ToInt32(ddlItemGroup.SelectedValue), txtItemCode.Text, txtItemDescription.Text, ddlIsActive.SelectedValue, Convert.ToInt32(drpissuetype.SelectedValue));
                     Response.Redirect("ItemType.aspx");
                 }
             }
@@ -201,7 +200,7 @@ namespace Billing.Accountsbootstrap
                 }
                 else
                 {
-                    int iStatus = objBs.updateItemTypeMaster(Convert.ToInt32(ddlItemHead.SelectedValue), Convert.ToInt32(ddlItemGroup.SelectedValue), txtItemCode.Text, txtItemDescription.Text, ddlIsActive.SelectedValue, Convert.ToInt32(txtItemId.Text));
+                    int iStatus = objBs.updateItemTypeMaster(Convert.ToInt32(ddlItemHead.SelectedValue), Convert.ToInt32(ddlItemGroup.SelectedValue), txtItemCode.Text, txtItemDescription.Text, ddlIsActive.SelectedValue, Convert.ToInt32(txtItemId.Text), Convert.ToInt32(drpissuetype.SelectedValue));
                     Response.Redirect("ItemType.aspx");
                 }
 

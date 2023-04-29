@@ -232,6 +232,8 @@
                                                     ItemStyle-Width="15%" />
                                                 <asp:BoundField DataField="Itemgroupname" SortExpression="Itemgroupname" HeaderText="ItemGroup"
                                                     ItemStyle-Width="15%" />
+                                                 <asp:BoundField DataField="IssueType1" SortExpression="IssueType1" HeaderText="IssueType"
+                                                    ItemStyle-Width="15%" />
                                                 <asp:BoundField DataField="IsActive" SortExpression="IsActive" HeaderText="Is Active"
                                                     ItemStyle-Width="5%" />
                                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" ItemStyle-Width="5%" HeaderText="Modify">
@@ -329,6 +331,15 @@
                                 TargetControlID="txtItemDescription" />
                             <asp:TextBox CssClass="form-control" ID="txtItemDescription" runat="server" placeholder="To Add New Item Description"></asp:TextBox>
                         </div>
+                         <div class="form-group">
+                                    <label>
+                                        Select Issue Type
+                                    </label>
+                                    <asp:DropDownList ID="drpissuetype" runat="server" CssClass="form-control">
+                                        <asp:ListItem Text="Cutting Issue" Value="1"></asp:ListItem>
+                                        <asp:ListItem Text="Production Process Issue" Value="2"></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
                         <div class="form-group">
                             <label>
                                 IsActive</label>

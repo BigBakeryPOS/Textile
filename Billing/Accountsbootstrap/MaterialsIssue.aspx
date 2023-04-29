@@ -130,6 +130,8 @@
                                 </div>
                             </div>
                             <div class="col-lg-2">
+                                  <asp:Button ID="btnCalc" runat="server" CssClass="btn btn-primary" Text="Calc" OnClick="btnCalc_OnClick"
+                                    Width="110px" />
                             </div>
                             <div class="col-lg-1">
                                 <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary" Text="Save" OnClick="btnSave_OnClick"
@@ -143,9 +145,62 @@
                         <div id="Excel" runat="server">
                             <div class="panel-body">
                                 <div class="col-lg-12">
-                                    <div class="col-lg-1">
+                                    <div class="col-lg-6">
+                                         <asp:GridView ID="GVFabricDetailsLotNo" runat="server" Width="100%" EmptyDataText="No Records Found"
+                                                Caption="Material Details with Lotno" AutoGenerateColumns="false" CssClass="myGridStyle1">
+                                                <HeaderStyle BackColor="White" />
+                                                <EmptyDataRowStyle HorizontalAlign="Center" BackColor="White" ForeColor="Black" />
+                                                <PagerSettings FirstPageText="First" LastPageText="Last" Mode="NumericFirstLast"
+                                                    NextPageText="Next" PreviousPageText="Previous" />
+                                                <Columns>
+                                                    <asp:TemplateField HeaderText="SNo  " HeaderStyle-Width="1%">
+                                                        <ItemTemplate>
+                                                            <%#Container.DataItemIndex+1 %>
+                                                            <asp:HiddenField ID="hdItemId" runat="server" Value='<%#Eval("ItemId") %>' />
+                                                            <asp:HiddenField ID="hdColorId" runat="server" Value='<%#Eval("ColorId") %>' />
+                                                            <asp:HiddenField ID="hdRequiredStock" runat="server" Value='<%#Eval("RequiredStock") %>' />
+                                                            <asp:HiddenField ID="hdIssueStock" runat="server" Value='<%#Eval("IssueStock") %>' />
+                                                            <%--<asp:HiddenField ID="hdUsedQty"  runat="server" Value='<%#Eval("UsedQty") %>' />--%>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:BoundField DataField="Item" HeaderText="Item" />
+                                                    <asp:BoundField DataField="Color" HeaderText="Color" />
+                                                    <asp:TemplateField HeaderText="LotNo" HeaderStyle-Width="45px" ItemStyle-Width="45px"
+                                                        ItemStyle-HorizontalAlign="Right">
+                                                        <ItemTemplate>
+                                                            <label>
+                                                            </label>
+                                                            <asp:Label ID="lblLotNo" Height="30px" Width="100%" runat="server" Text='<%#Eval("LotNo") %>'></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>                                                   
+                                                    <asp:BoundField DataField="RequiredStock" HeaderText="RequiredStock" DataFormatString="{0:f2}"
+                                                        ItemStyle-HorizontalAlign="Right" />
+                                                    <asp:BoundField DataField="IssueStock" HeaderText="IssuedStock" DataFormatString="{0:f2}"
+                                                        ItemStyle-HorizontalAlign="Right" />
+                                                    <%--<asp:BoundField DataField="UsedQty" HeaderText="UsedQty" DataFormatString="{0:f2}"
+                                                        ItemStyle-HorizontalAlign="Right" />--%>
+                                                    <asp:TemplateField HeaderText="Avl.Stock" HeaderStyle-Width="45px" ItemStyle-Width="45px"
+                                                        ItemStyle-HorizontalAlign="Right">
+                                                        <ItemTemplate>
+                                                            <label>
+                                                            </label>
+                                                            <asp:Label ID="lblAvlStock" Height="30px" Width="100%" runat="server" Text='<%#Eval("AvlStock") %>'></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Issue Qty" HeaderStyle-Width="80px" ItemStyle-Width="80px"
+                                                        ItemStyle-HorizontalAlign="Right">
+                                                        <ItemTemplate>
+                                                            <asp:TextBox ID="txtIssueQty" Height="30px" Width="100%" runat="server" Text='<%#Eval("IssueQty") %>'
+                                                                CssClass="form-control"></asp:TextBox>
+                                                            <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender7" runat="server"
+                                                                TargetControlID="txtIssueQty" ValidChars="." FilterType="Numbers,Custom" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                                <HeaderStyle BackColor="#336699" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
+                                            </asp:GridView>
                                     </div>
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-6">
                                         <div id="Div5" runat="server">
                                             <asp:TextBox CssClass="form-control" Visible="false" Enabled="true" onkeyup="Search_Gridview(this, 'gvLabels')"
                                                 ID="TextBox1" runat="server" Style="margin-top: -20px" placeholder="Enter Text to Search"
@@ -187,7 +242,7 @@
                                                     <asp:TemplateField HeaderText="Issue Qty" HeaderStyle-Width="80px" ItemStyle-Width="80px"
                                                         ItemStyle-HorizontalAlign="Right">
                                                         <ItemTemplate>
-                                                            <asp:TextBox ID="txtIssueQty" Height="30px" Width="100%" runat="server" Text='<%#Eval("IssueQty") %>'
+                                                            <asp:TextBox ID="txtIssueQty" Height="30px" Width="100%" runat="server" Text='<%#Eval("IssueQty") %>' Enabled="false"
                                                                 CssClass="form-control"></asp:TextBox>
                                                             <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender7" runat="server"
                                                                 TargetControlID="txtIssueQty" ValidChars="." FilterType="Numbers,Custom" />
@@ -198,8 +253,7 @@
                                             </asp:GridView>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2">
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
